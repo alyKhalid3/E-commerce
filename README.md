@@ -1,16 +1,141 @@
-🛒 E-commerce API Backend📝 DescriptionThis repository hosts a powerful, scalable, and modular E-commerce RESTful API designed to handle all core business logic for an online store. Built with the NestJS framework, it ensures maintainability, high performance, and ease of expansion through its architectural pattern.This API serves as the centralized engine for various clients (web, mobile, or third-party applications) to manage products, users, orders, and authentication securely.✨ Key FeaturesThe E-commerce API is structured to support a full range of business functionalities, categorized as follows:1. User & AuthenticationSecure Authentication: User registration, login, and token refresh using JWT (JSON Web Tokens).Role-Based Access Control (RBAC): Implementation of user roles (Admin, Customer) to manage access to sensitive endpoints.User Profiles: Endpoints for viewing, updating, and deleting customer and admin profiles.Password Hashing: Secure storage of passwords using industry-standard hashing techniques (e.g., bcrypt).2. Product Management (Admin)Full CRUD Operations: Dedicated endpoints for Create, Read, Update, and Delete products.Product Catalog: Comprehensive data model including name, description, price, stock quantity, categories, and images.Filtering & Searching: Advanced query options for searching products by keyword, category, price range, and stock availability.3. Shopping Cart & CheckoutStateful Cart Logic: Endpoints to add, remove, and update quantities of items in a user's temporary or persistent shopping cart.Total Calculation: Real-time calculation of cart totals, including potential discounts or taxes.Checkout Process: API flow to transition the cart contents into a pending order.4. Order ManagementOrder Creation: Securely generating new orders tied to a customer and shipping address.Order Tracking: Endpoints for users to view their order history and current status.Admin Order Control: Dedicated routes for administrators to view all orders, update order status (Processing, Shipped, Delivered), and manage returns.5. UtilitiesInput Validation: Strict data validation using Class-Validator to ensure data integrity.Efficient Data Handling: Uses TypeORM for interacting with the relational database.API Documentation: Integration with Swagger/OpenAPI for generating interactive API documentation.🛠️ Tech StackThis project is a modern backend application built on the following core technologies:CategoryTechnologyDescriptionFrameworkNestJSA progressive Node.js framework for building efficient and scalable server-side applications.LanguageTypeScriptSuperset of JavaScript that adds static typing, improving code quality and maintainability.Database (Assumed)PostgreSQL / MongoDBUsed for data persistence, managed via TypeORM or Mongoose.AuthenticationPassport.js & JWTStandard modules for handling local and token-based authentication.ORM / ODMTypeORM (or Mongoose)Object-Relational/Document Mapper for interacting with the database.Linting/FormattingESLint & PrettierTools to enforce code consistency and maintain readability.🚀 Installation and SetupFollow these steps to get the E-commerce API running locally on your machine.PrerequisitesYou must have the following installed:Node.js (v18.x or later)npm or YarnA running instance of your chosen database (e.g., PostgreSQL or MongoDB).StepsClone the repository:Bashgit clone https://github.com/alyKhalid3/E-commerce.git
+# E‑commerce API
+
+A scalable, modular, and secure RESTful API for an e-commerce platform,
+built using **NestJS** and **TypeScript**. This API handles core
+business logic for products, users, orders, and authentication, making
+it suitable for powering web, mobile, or third-party clients.
+
+## 📋 Table of Contents
+
+-   [Features](#features)
+-   [Architecture](#architecture)
+-   [Tech Stack](#tech-stack)
+-   [Getting Started](#getting-started)
+-   [Configuration](#configuration)
+-   [Usage](#usage)
+-   [Testing](#testing)
+-   [API Documentation](#api-documentation)
+-   [Contributing](#contributing)
+-   [License](#license)
+-   [Maintainer](#maintainer)
+-   [Acknowledgements](#acknowledgements)
+
+## ✅ Features
+
+-   **Authentication & Authorization**
+    -   User registration and login
+    -   JWT-based authentication
+    -   Role-Based Access Control (RBAC)
+    -   Password hashing
+-   **User Management**
+    -   CRUD operations for users
+    -   Admin/user permissions
+-   **Product Management**
+    -   CRUD operations
+    -   Categories, images, stock, price
+    -   Search & filtering
+-   **Shopping Cart**
+    -   Add/remove items
+    -   Update quantities
+    -   Cart total calculation
+    -   Convert cart to order (checkout)
+-   **Order Management**
+    -   Create orders
+    -   Order status update
+    -   Order history
+-   **Validation & Error Handling**
+    -   class-validator DTOs
+    -   Global exception filters
+-   **Database Integration**
+    -   ORM-based models
+    -   Relationships support
+
+## 🏗 Architecture
+
+-   Controllers
+-   Services
+-   Repositories
+-   Guards
+-   Interceptors
+-   DTO Validation Layer
+-   Modular folder structure
+
+## 💻 Tech Stack
+
+-   NestJS
+-   TypeScript
+-   Mongoose / MongoDB (adjust if needed)
+-   JWT / Passport
+-   class-validator / class-transformer
+-   Swagger
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+-   Node.js
+-   npm / yarn
+-   MongoDB running locally or cloud
+
+### Installation
+
+``` bash
+git clone https://github.com/alyKhalid3/E-commerce
 cd E-commerce
-Install dependencies:Bashnpm install
-# or
-yarn install
-Configure Environment Variables:Create a .env file in the root directory and define your configurations (e.g., database connection string, JWT secrets).Code snippet# Example .env configuration
-PORT=3000
-DATABASE_URL="<your_db_connection_string>"
-JWT_SECRET="<your_secure_secret>"
-# Add other necessary variables...
-Run Migrations (if using a relational database):Bash# (If applicable) Execute database schema creation/updates
-npm run migration:run 
-Start the application:Development Mode (with hot reload):Bashnpm run start:dev
-Production Build:Bashnpm run build
-npm run start:prod
-The API will now be running at http://localhost:3000.📄 API DocumentationOnce the server is running, you can access the interactive Swagger UI documentation (if enabled) at:http://localhost:3000/apiThis interface allows you to view all available endpoints, required parameters, and response schemas, making testing and integration straightforward.🤝 ContributingContributions, issues, and feature requests are welcome! Feel free to check the issues page.Fork the Project.Create your Feature Branch (git checkout -b feature/AmazingFeature).Commit your Changes (git commit -m 'feat: Add some AmazingFeature').Push to the Branch (git push origin feature/AmazingFeature).Open a Pull Request.👤 Author1GitHub: @alyKhalid32⚖️ License3Distributed under the MIT License. See LICENSE for more information.4
+npm install
+```
+
+### Run Project
+
+``` bash
+npm run start:dev
+```
+
+## ⚙️ Configuration
+
+Create a `.env` file:
+
+    PORT=3000
+    MONGODB_URI=your_mongodb_uri
+    JWT_SECRET=your_secret
+
+## 💡 Usage
+
+After running:
+
+    http://localhost:3000/api
+
+Use Swagger to explore all endpoints.
+
+## 🧪 Testing
+
+``` bash
+npm run test
+```
+
+## 📚 API Documentation
+
+Swagger UI available at:
+
+    /api
+
+## 🤝 Contributing
+
+1.  Fork project
+2.  Create branch
+3.  Commit changes
+4.  Push
+5.  Open PR
+
+## 📜 License
+
+MIT License.
+
+## 👤 Maintainer
+
+-   **Aly Khalid**
+-   GitHub: https://github.com/alyKhalid3
+
+## 🙏 Acknowledgements
+
+Thanks to NestJS documentation and community.
