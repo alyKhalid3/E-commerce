@@ -49,7 +49,8 @@ it suitable for powering web, mobile, or third-party clients.
 -   **Database Integration**
     -   ORM-based models
     -   Relationships support
-
+-   **Payment Geteway**
+-   -   Integration with stripe
 ## 🏗 Architecture
 
 -   Controllers
