@@ -3,6 +3,7 @@ import mongoose, { Types } from "mongoose";
 import { ICart } from "src/types/cart.type";
 import { User } from "./user.model";
 import { Product } from "./product.model";
+import { Coupon } from "./coupon.model";
 
 
 
@@ -14,7 +15,7 @@ import { Product } from "./product.model";
     timestamps: true
 })
 export class Cart implements ICart {
-    
+
     @Prop({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -22,9 +23,9 @@ export class Cart implements ICart {
         ref: User.name
     })
     user: Types.ObjectId;
-    
+
     @Prop({
-        type:[{
+        type: [{
             product: {
                 type: mongoose.Schema.Types.ObjectId,
                 required: true,
@@ -34,12 +35,46 @@ export class Cart implements ICart {
                 type: Number,
                 default: 1,
                 required: true
+            },
+            price: {
+                type: Number,
+                required: true
+            },
+            total: {
+                type: Number,
+                required: true
             }
         }],
         default: []
 
     })
-    items: { product: Types.ObjectId; quantity: number; }[];
+    items: { product: Types.ObjectId, quantity: number, price: number, total: number }[];
+
+    @Prop({
+        type: Number,
+        default: 0
+    })
+    totalPrice: number
+    @Prop({
+        type: mongoose.Schema.Types.ObjectId,
+        default: null,
+        ref: Coupon.name
+    })
+    coupon?: Types.ObjectId | null
+    @Prop({
+        type: Number,
+        default: 0
+    })
+    discount?: number
+
+    @Prop({
+        type: Number,
+        default: 0
+    })
+    totalAfterDiscount?: number
+
+
+
 }
 
 

@@ -2,14 +2,16 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
-import { BrandModule } from './brand/brand.module';
-import { CategoryModule } from './category/category.module';
-import { ProductModule } from './product/product.module';
-import { CartModule } from './cart/cart.module';
-import { OrderModule } from './order/order.module';
+import { BrandModule } from './modules/brand/brand.module';
+import { CategoryModule } from './modules/category/category.module';
+import { ProductModule } from './modules/product/product.module';
+import { CartModule } from './modules/cart/cart.module';
+import { OrderModule } from './modules/order/order.module';
+import { CouponModule } from './modules/coupon/coupon.module';
+
 
 @Module({
   imports: [
@@ -29,6 +31,7 @@ import { OrderModule } from './order/order.module';
   ProductModule,
   CartModule,
   OrderModule,
+  CouponModule,
   ],
   controllers: [AppController],
   providers: [AppService],

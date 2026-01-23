@@ -20,7 +20,7 @@ export interface IOrder {
     phone: string
     paymentMethod: PaymentMethodEnum
     orderStatus: OrderStatusEnum
-
+   intentId:string
 }
 
 export type IHydratedOrder=HydratedDocument<IOrder>

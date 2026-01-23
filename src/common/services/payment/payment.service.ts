@@ -1,0 +1,62 @@
+import { BadRequestException, Injectable } from '@nestjs/common';
+import Stripe from 'stripe';
+import { success } from 'zod';
+@Injectable()
+export class PaymentService {
+  private stripe: Stripe;
+
+  constructor() {
+    this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+  }
+
+  async checkoutSession({
+    success_url = process.env.SUCCESS_URL,
+    cancel_url = process.env.CANCEL_URL,
+    mode = 'payment',
+    discounts = [],
+    metadata = {},
+    line_items,
+    customer_email,
+  }: Stripe.Checkout.SessionCreateParams) {
+    const session = await this.stripe.checkout.sessions.create({
+      customer_email,
+      success_url,
+      cancel_url,
+      line_items,
+      mode,
+      discounts,
+      metadata,
+    });
+    return session;
+  }
+  async createCoupon(data: Stripe.CouponCreateParams) {
+    const coupon = await this.stripe.coupons.create(data);
+    return coupon;
+  }
+
+  async createPaymentMethod(data: Stripe.PaymentMethodCreateParams) {
+    const paymentMethod = await this.stripe.paymentMethods.create(data);
+    return paymentMethod;
+  }
+  async createPaymentIntent(data: Stripe.PaymentIntentCreateParams) {
+    const paymentIntent = await this.stripe.paymentIntents.create(data);
+    return paymentIntent;
+  }
+  async retrievePaymentIntent(id: string) {
+    const paymentIntent = await this.stripe.paymentIntents.retrieve(id);
+    return paymentIntent;
+  }
+  async confirmPaymentIntent(id: string) {
+    const intent = await this.retrievePaymentIntent(id);
+    if (!intent) throw new BadRequestException('payment intent not found');
+    const confirmIntent = await this.stripe.paymentIntents.confirm(id);
+    return confirmIntent;
+  }
+
+  async createRefund(id: string) {
+    const intent = await this.retrievePaymentIntent(id);
+    if (!intent) throw new BadRequestException('payment intent not found');
+    const refund = await this.stripe.refunds.create({ payment_intent: id });
+    return refund;
+  }
+}

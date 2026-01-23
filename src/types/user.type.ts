@@ -33,6 +33,8 @@ export interface IUser {
     age: number
     credantialsChangedAt: Date
     emailOtp: IOtp
+    newEmailOtp:IOtp,
+    newEmail:string
     passwordOtp: IOtp,
     IsConfirmed: boolean,
     picture: string

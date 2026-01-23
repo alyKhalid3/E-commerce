@@ -1,6 +1,6 @@
 
 
-import { Body, Controller, Get, Param, Patch, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { BrandService } from './brand.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { IBrand } from 'src/types/brand.type.';
@@ -20,7 +20,7 @@ export class BrandController {
     @Post('create')
     @UseGuards(AuthGuard)
     @UseInterceptors(FileInterceptor('image', {
-        storage: multerOptions('./src/uploads/brands')
+        storage: multerOptions('uploads/brands')
     }))
     async create(@Req() req: AuthRequest, @Body() data: IBrand, @UploadedFile() image: Express.Multer.File,) {
         data.image = image.path
@@ -51,6 +51,12 @@ export class BrandController {
         if (id) return await this.brandService.getBrand(id)
         return await this.brandService.getBrands()
 
+    }
+
+    @Delete('delete/:id')
+    @UseGuards(AuthGuard)
+    async deleteBrand(@Param('id') id: Types.ObjectId, @Req() req: AuthRequest) {
+        return await this.brandService.deleteBrand(id, req.user)
     }
 }
 

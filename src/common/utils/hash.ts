@@ -7,6 +7,6 @@ export const createHash = async (text: string): Promise<string> => {
 
 
 
-export const compareHash = async (text: string, hash: string): Promise<boolean> => {
+export const compareHash = async ({ text, hash }: { text: string, hash: string }): Promise<boolean> => {
     return await compare(text, hash);
 }

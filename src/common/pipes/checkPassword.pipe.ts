@@ -1,5 +1,5 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from "@nestjs/common";
-import { signUpDto } from "src/auth/auth_dto/auth.dto";
+import { signUpDto } from "src/modules/auth/auth_dto/auth.dto";
 
 
 

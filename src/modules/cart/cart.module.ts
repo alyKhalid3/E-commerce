@@ -8,14 +8,17 @@ import { JwtService } from '@nestjs/jwt';
 import { UserRepo } from 'src/Repos/user.repo';
 import { ProductRepo } from 'src/Repos/product.repo';
 import { CartRepo } from 'src/Repos/cart.repo';
+import { CouponModel } from 'src/models/coupon.model';
+import { CouponRepo } from 'src/Repos/coupon.repo';
 
 @Module({
   imports: [
     CartModel,
     ProductModel,
-    UserModel
+    UserModel,
+    CouponModel
   ],
   controllers: [CartController],
-  providers: [CartService,JwtService,UserRepo,ProductRepo,CartRepo]
+  providers: [CartService, JwtService, UserRepo, ProductRepo, CartRepo, CouponRepo]
 })
-export class CartModule {}
+export class CartModule { }

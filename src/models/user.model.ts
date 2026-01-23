@@ -1,9 +1,12 @@
-import { MongooseModule, Prop, Schema, SchemaFactory, Virtual } from "@nestjs/mongoose";
-import { HydratedDocument, Mongoose } from "mongoose";
+
+
+import { MongooseModule, Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { HydratedDocument } from "mongoose";
 import { createHash } from "src/common/utils/hash";
 import { emailEmitter } from "src/common/utils/sendEmail/emailEvents";
 import { template } from "src/common/utils/sendEmail/generateHTML";
 import { GenderEnum, type IOtp, IUser, ProviderEnum, RolesEnum } from "src/types/user.type";
+
 
 @Schema({ _id: false })
 export class OtpSchema {
@@ -35,7 +38,8 @@ export class User implements IUser {
         min: [3, "First name should be at least 3 characters long"]
     })
     lastName: string;
-    @Virtual(({
+    @Prop(({
+        type: String,
         get: function () {
             return `${this.firstName} ${this.lastName}`;
         },
@@ -43,7 +47,7 @@ export class User implements IUser {
             const names = value.split(" ");
             this.firstName = names[0];
             this.lastName = names[1];
-            // this.set({})
+            
         }
 
     }))
@@ -80,8 +84,21 @@ export class User implements IUser {
     })
     emailOtp: IOtp;
     @Prop({
+        type: {
+            otp: String,
+            expiredAt: Date
+        }
+    })
+    newEmailOtp: IOtp
+    @Prop({
+        type:String
+    })
+    newEmail:string
+    @Prop({
         type: Boolean,
-        default: false
+        default: function () {
+            return this.provider === ProviderEnum.GOOGLE
+        }
     })
     IsConfirmed: boolean;
     @Prop({
@@ -118,6 +135,8 @@ export class User implements IUser {
 
 const UserSchema = SchemaFactory.createForClass(User);
 export { UserSchema };
+UserSchema.set('toJSON', { getters: true, virtuals: true });
+UserSchema.set('toObject', { getters: true, virtuals: true });
 
 UserSchema.pre('save', async function (this: HydratedDocument<IUser> & { firstCreation: boolean, plainTextOtp?: string }, next) {
     this.firstCreation = this.isNew
@@ -126,16 +145,12 @@ UserSchema.pre('save', async function (this: HydratedDocument<IUser> & { firstCr
         this.password = await createHash(this.password)
     if (this.isModified('emailOtp'))
         this.emailOtp.otp = await createHash(this.emailOtp.otp as string)
-
-
-
-
     next()
 })
 UserSchema.post('save', async function (doc, next) {
 
     const that = this as HydratedDocument<IUser> & { firstCreation: boolean, plainTextOtp?: string }
-    if (that.firstCreation&&!that.IsConfirmed) {
+    if (that.firstCreation && !that.IsConfirmed) {
         const subject = 'email verification'
         const html = template({ code: that.plainTextOtp as string, name: `${doc.firstName} ${doc.lastName}`, subject })
         emailEmitter.publish('send-email-activation-code', { to: doc.email, subject, html })

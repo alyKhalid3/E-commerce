@@ -1,5 +1,5 @@
 import { MongooseModule, Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { User } from "./user.model";
 import slugify from "slugify";
 import { IBrand, IHydratedBrand } from "src/types/brand.type.";
@@ -29,7 +29,7 @@ export class Brand implements IBrand {
         required: true,
         ref: User.name
     })
-    createdBy: string
+    createdBy: Types.ObjectId
     @Prop({
         type: String,
         required: true

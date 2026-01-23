@@ -10,6 +10,7 @@ import { OrderRepo } from 'src/Repos/order.repo';
 import { ProductRepo } from 'src/Repos/product.repo';
 import { ProductModel } from 'src/models/product.model';
 import { UserRepo } from 'src/Repos/user.repo';
+import { PaymentService } from 'src/common/services/payment/payment.service';
 
 @Module({
   imports: [
@@ -21,6 +22,6 @@ import { UserRepo } from 'src/Repos/user.repo';
 
   ],
   controllers: [OrderController],
-  providers: [OrderService,JwtService,UserRepo,CartRepo,OrderRepo,ProductRepo]
+  providers: [OrderService,JwtService,UserRepo,CartRepo,OrderRepo,ProductRepo,PaymentService]
 })
 export class OrderModule {}

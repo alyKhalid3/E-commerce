@@ -1,9 +1,8 @@
 
-import { CategoryRepo } from './../Repos/category.repo';
-import { UserRepo } from './../Repos/user.repo';
+import { CategoryRepo } from '../../Repos/category.repo';
+import { UserRepo } from '../../Repos/user.repo';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Types } from 'mongoose';
-import { filter } from 'rxjs';
 import { BrandRepo } from 'src/Repos/brand.repo';
 import { ProductRepo } from 'src/Repos/product.repo';
 import { IProduct } from 'src/types/product.type';
@@ -24,7 +23,7 @@ export class ProductService {
       }
     })
     if (!brand) {
-      throw new Error("Brand not found")
+      throw new BadRequestException("Brand not found")
     }
     const category = await this.CategoryRepo.findOne({
       filter: {
@@ -32,7 +31,7 @@ export class ProductService {
       }
     })
     if (!category) {
-      throw new Error("Category not found")
+      throw new BadRequestException("Category not found")
     }
     data.salePrice = data.originalPrice - (data.discount / 100) * data.originalPrice
     return await this.productRepo.create(data)

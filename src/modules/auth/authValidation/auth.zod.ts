@@ -1,6 +1,6 @@
 
 import { GenderEnum, ProviderEnum, RolesEnum } from "src/types/user.type"
-import { z } from "zod"
+import { email, number, object, z } from "zod"
 
 
 
@@ -54,4 +54,38 @@ export const changePasswordSchema=z.strictObject({
     password: z.string().min(6),
     email : z.email(),
     otp: z.string().min(6)
+})
+
+export const resendEmailOtpSchema = z.strictObject({
+    email: z.email(),
+})
+
+
+export const updatePasswordSchema = z.strictObject({
+    currentPassword: z.string().min(6),
+    newPassword: z.string().min(6),
+    confirmPassword: z.string().min(6),
+}).superRefine(({ newPassword, confirmPassword }, ctx) => {
+    if (newPassword !== confirmPassword) {
+        ctx.addIssue({
+            code: "custom",
+            message: "Passwords do not match",
+            path: ["confirmPassword"]
+        })
+    }
+})
+
+
+export const updateInfoSchema=z.strictObject({
+    username:z.string().min(1).optional(),
+    phone:z.string().min(11).optional(),
+    gender:z.enum(Object.values(GenderEnum)).default(GenderEnum.MALE).optional(),
+    age:z.number().min(10).max(100).optional()
+})
+
+export const confirmUpdateEmailSchema=z.strictObject({
+    email:z.email(),
+    newOtp:z.string().min(6),
+    oldOtp:z.string().min(6)
+
 })
