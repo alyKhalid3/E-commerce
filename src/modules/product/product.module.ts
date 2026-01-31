@@ -10,15 +10,30 @@ import { UserRepo } from 'src/Repos/user.repo';
 import { BrandRepo } from 'src/Repos/brand.repo';
 import { ProductRepo } from 'src/Repos/product.repo';
 import { CategoryRepo } from 'src/Repos/category.repo';
+import { createClient } from 'redis';
 
 @Module({
-  imports: [
-    UserModel,
-    BrandModel,
-    CategoryModel,
-    ProductModel
-  ],
+  imports: [UserModel, BrandModel, CategoryModel, ProductModel],
   controllers: [ProductController],
-  providers: [ProductService,JwtService,UserRepo,BrandRepo,ProductRepo,CategoryRepo],
+  providers: [
+    ProductService,
+    JwtService,
+    UserRepo,
+    BrandRepo,
+    ProductRepo,
+    CategoryRepo,
+    {
+      provide:'REDIS_CLIENT',
+      useFactory: () => {
+        const client =createClient({
+             url:`redis://${process.env.REDIS_URL}`,
+        })
+        client.connect();
+        client.on('error', (err) => console.log('Redis Connection Error =>', err));
+        console.log('redis connected successfully');
+        return client;
+      }
+    },
+  ],
 })
 export class ProductModule {}

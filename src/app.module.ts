@@ -11,6 +11,7 @@ import { ProductModule } from './modules/product/product.module';
 import { CartModule } from './modules/cart/cart.module';
 import { OrderModule } from './modules/order/order.module';
 import { CouponModule } from './modules/coupon/coupon.module';
+import { GatewayModule } from './gateway/gateway/gateway.module';
 
 
 @Module({
@@ -32,6 +33,7 @@ import { CouponModule } from './modules/coupon/coupon.module';
   CartModule,
   OrderModule,
   CouponModule,
+  GatewayModule
   ],
   controllers: [AppController],
   providers: [AppService],

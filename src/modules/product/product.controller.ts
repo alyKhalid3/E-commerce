@@ -8,6 +8,7 @@ import { multerOptions } from 'src/common/utils/multer';
 import { ZodValidationPipe } from 'src/common/pipes/zod.pipe';
 import { createProductSchema } from './product_validation/product.zod';
 import { Types } from 'mongoose';
+import { cachInterceptor } from 'src/common/interceptors/cach.interceptor';
 
 @Controller('product')
 export class ProductController {
@@ -42,8 +43,9 @@ export class ProductController {
 
 
   @Get('/all')
+  @UseInterceptors(cachInterceptor)
   async getAllProducts() {
     return { data: await this.productService.getAllProducts() }
   }
-
+ 
 }

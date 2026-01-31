@@ -1,8 +1,9 @@
 
 import { CategoryRepo } from '../../Repos/category.repo';
 import { UserRepo } from '../../Repos/user.repo';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { Types } from 'mongoose';
+import type{ RedisClientType } from 'redis';
 import { BrandRepo } from 'src/Repos/brand.repo';
 import { ProductRepo } from 'src/Repos/product.repo';
 import { IProduct } from 'src/types/product.type';
@@ -13,7 +14,8 @@ export class ProductService {
     private readonly userRepo: UserRepo,
     private readonly productRepo: ProductRepo,
     private readonly CategoryRepo: CategoryRepo,
-    private readonly brandRepo: BrandRepo
+    private readonly brandRepo: BrandRepo,
+    @Inject('REDIS_CLIENT') private readonly radisClient: RedisClientType
 
   ) { }
   async create(data: IProduct) {
@@ -69,11 +71,11 @@ export class ProductService {
   }
 
   async getAllProducts() {
+
     return this.productRepo.find({
       filter: {}, options: {
         populate: ['category', 'brand']
       }
     });
   }
-
 }

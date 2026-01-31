@@ -16,10 +16,9 @@ export class LoggerInterceptor implements NestInterceptor{
         .handle()
         .pipe(
             map((interceptorData) => {
-                const {message='success',statusCode=200,data={}} = interceptorData
+                const {message='success',data={}} = interceptorData
                 return {
                     message,
-                    statusCode,
                     data,
                     
                 }
@@ -27,3 +26,9 @@ export class LoggerInterceptor implements NestInterceptor{
         );        
     }
 }
+
+
+
+
+
+
